@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ck.ck181228.user_management.mapper.UserMapper">
+
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap"
+		type="com.ck.ck181228.user_management.model.UserModel">
+		<result column="id" property="id" />
+		<result column="user_code" property="user_code" />
+		<result column="user_pass" property="user_pass" />
+		<result column="user_name" property="user_name" />
+		<result column="role_code" property="role_code" />
+		<result column="role_name" property="role_name" />
+		<result column="parent_code" property="parent_code" />
+		<result column="error_times" property="error_times" />
+		<result column="blacklist" property="blacklist" />
+		<result column="state" property="state" />
+	</resultMap>
+	<!-- table all fields sql片段 -->
+	<sql id="Base_Column_List">
+		m.id, m.user_code,m.user_pass,
+		m.user_name,m.role_code,m.parent_code,m.error_times,m.blacklist,m.state,r.role_code,r.role_name
+		as role_name
+	</sql>
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="user_code != null and user_code != ''">
+			and user_code like #{user_code}
+		</if>
+		<if test="user_pass !=null and user_pass !=''">
+			and user_pass = #{user_pass}
+		</if>
+		<if test="user_name != null and user_name != ''">
+			and user_name like #{user_name}
+		</if>
+		<if test="role_code !=null and role_code !=''">
+			and role_code = #{role_code}
+		</if>
+		<if test="parent_code != null and parent_code != ''">
+			and parent_code = #{parent_code}
+		</if>
+		<if test="error_times != null and error_times != ''">
+			and error_times = #{error_times}
+		</if>
+		<if test="blacklist != null and blacklist != ''">
+			and blacklist = #{blacklist}
+		</if>
+		<if test="state != null and state != ''">
+			and state = #{state}
+		</if>
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into
+		mis.user_management(user_code,user_pass,user_name,role_code,parent_code,error_times,blacklist,state)
+		values(#{user_code},#{user_pass},#{user_name},#{role_code},#{parent_code},#{error_times},#{blacklist},#{state})
+	</insert>
+	<update id="update" parameterType="Object">
+		update mis.user_management set
+		id = id
+		<if test="user_pass != null and user_pass != '' ">
+			,user_pass = #{user_pass}
+		</if>
+		<if test="user_name != null and user_name != '' ">
+			,user_name = #{user_name}
+		</if>
+		<if test="role_code != null and role_code != '' ">
+			,role_code = #{role_code}
+		</if>
+		<if test="error_times != null and error_times != '' ">
+			,error_times = #{error_times}
+		</if>
+		<if test="state != null and state != '' ">
+			,state = #{state}
+		</if>
+		<if test="blacklist != null and blacklist != '' ">
+			,blacklist = #{blacklist}
+		</if>
+		where id = #{id}
+	</update>
+	<update id="updateModel" parameterType="Object">
+		update mis.user_management set
+		id = id
+		<if test="user_pass != null and user_pass != '' ">
+			,user_pass = #{user_pass}
+		</if>
+		<if test="user_name != null and user_name != '' ">
+			,user_name = #{user_name}
+		</if>
+		<if test="role_code != null and role_code != '' ">
+			,role_code = #{role_code}
+		</if>
+		<if test="error_times != null and error_times != '' ">
+			,error_times = #{error_times}
+		</if>
+		<if test="state != null and state != '' ">
+			,state = #{state}
+		</if>
+		<if test="blacklist != null and blacklist != '' ">
+			,blacklist = #{blacklist}
+		</if>
+		where user_code = #{user_code}
+	</update>
+	<delete id="delete" parameterType="Object">
+		delete from
+		mis.user_management where user_code = #{user_code}
+	</delete>
+	<delete id="deleteModel" parameterType="Object">
+		delete from
+		mis.user_management where id = #{id}
+	</delete>
+	<select id="select" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.user_management as m left join mis.role_management as r on
+		m.role_code = r.role_code
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.user_management as m left join mis.role_management as r on
+		m.role_code = r.role_code
+		<include refid="Example_Where_Clause" />
+		limit ${rowStart},${pageLimit}
+	</select>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.user_management as m left join mis.role_management as r on
+		m.role_code = r.role_code
+		<include refid="Example_Where_Clause" />
+		limit ${rowStart},${pageLimit}
+	</select>
+	<select id="selectCount" resultType="int" parameterType="Object">
+		select count(1) from mis.user_management
+		<include refid="Example_Where_Clause"></include>
+	</select>
+		<select id="selectmap" resultType="map" parameterType="Object">
+		select (select r.role_name from mis.role_management as r where r.role_code = u.role_code)role_name,count(1) as count from mis.user_management as u group by u.role_code
+	</select>
+</mapper>

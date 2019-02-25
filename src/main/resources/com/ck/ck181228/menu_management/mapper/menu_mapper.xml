@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ck.ck181228.menu_management.mapper.MenuMapper">
+
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap"
+		type="com.ck.ck181228.menu_management.model.MenuModel">
+		<result column="id" property="id" />
+		<result column="menu_code" property="menu_code" />
+		<result column="menu_name" property="menu_name" />
+		<result column="menu_url" property="menu_url" />
+		<result column="parent_code" property="parent_code" />
+		<result column="level" property="level" />
+		<result column="orderby" property="orderby" />
+		<!-- <collection property="list" -->
+		<!-- ofType="com.ck.ck181228.menu_management.model.MenuModel"> -->
+		<!-- <result column="menu_code" property="menu_code" /> -->
+		<!-- <result column="menu_name" property="menu_name" /> -->
+		<!-- <result column="menu_url" property="menu_url" /> -->
+		<!-- <result column="parent_code" property="parent_code" /> -->
+		<!-- <result column="level" property="level" /> -->
+		<!-- <result column="orderby" property="orderby" /> -->
+		<!-- </collection> -->
+	</resultMap>
+	<!-- table all fields sql片段 -->
+	<sql id="Base_Column_List">
+		m.id, m.menu_code,m.menu_name,
+		m.menu_url,m.parent_code,m.level,m.orderby
+	</sql>
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id != null">
+			and m.id = #{id}
+		</if>
+		<if test="menu_code != null and menu_code != ''">
+			and m.menu_code like #{menu_code}
+		</if>
+		<if test="menu_name !=null and menu_name !=''">
+			and m.menu_name like #{menu_name}
+		</if>
+		<if test="menu_url != null and menu_url != ''">
+			and m.menu_url = #{menu_url}
+		</if>
+		<if test="level !=null and level !=''">
+			and m.level = #{level}
+		</if>
+		<if test="parent_code != null and parent_code != '' ">
+			and m.parent_code = #{parent_code}
+		</if>
+		<if test="orderby !=null and orderby !=''">
+			and m.orderby = #{orderby}
+		</if>
+		<if test="user_code !=null and user_code !=''">
+			and u.user_code = #{user_code}
+		</if>
+		<if test="Minimum_permissions !=null and Minimum_permissions !=''">
+			and m.parent_code != #{Minimum_permissions}
+		</if>
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into
+		mis.menu_management(menu_code,menu_name,menu_url,parent_code,level,orderby)
+		values(#{menu_code},#{menu_name},#{menu_url},#{parent_code},#{level},#{orderby})
+	</insert>
+	<update id="update" parameterType="Object">
+		update mis.menu_management set
+		<trim suffixOverrides=",">
+			<if test="menu_name != null and menu_name != '' ">
+				menu_name = #{menu_name}
+			</if>
+			<if test="menu_url != null">
+				menu_url = #{menu_url}
+			</if>
+			<if test="parent_code != null and parent_code != '' ">
+				parent_code = #{parent_code}
+			</if>
+			<if test="level != null and level != '' ">
+				level = #{level}
+			</if>
+			<if test="orderby != null and orderby != '' ">
+				orderby = #{orderby}
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	<update id="updateModel" parameterType="Object">
+		update mis.menu_management set
+		id = id
+		<if test="menu_name != null and menu_name != '' ">
+			,menu_name = #{menu_name}
+		</if>
+		<if test="menu_url != null  ">
+			,menu_url = #{menu_url}
+		</if>
+		<if test="parent_code != null and parent_code != '' ">
+			,parent_code = #{parent_code}
+		</if>
+		<if test="level != null and level != '' ">
+			,level = #{level}
+		</if>
+		<if test="orderby != null and orderby != '' ">
+			,orderby = #{orderby}
+		</if>
+		where menu_code = #{menu_code}
+	</update>
+	<delete id="delete" parameterType="Object">
+		delete from
+		mis.menu_management where id = #{id}
+	</delete>
+	<delete id="deleteModel" parameterType="Object">
+		delete from
+		mis.menu_management where menu_code = #{menu_code}
+	</delete>
+	<select id="select" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		FROM mis.menu_management as m
+		<if test="menu_code !=null and menu_code !=''">
+			where m.menu_code = #{menu_code}
+		</if>
+		<if test="pageOn == true">
+			limit ${rowStart},${pageLimit}
+		</if>
+	</select>
+	<select id="selectList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		FROM mis.user_management as u left join mis.privilege_management as p
+		on u.role_code = p.role_code left join mis.menu_management as m
+		on
+		p.menu_code = m.menu_code
+		<include refid="Example_Where_Clause" />
+		order by m.level
+	</select>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		FROM mis.user_management as u left join mis.privilege_management as p
+		on u.role_code = p.role_code left join mis.menu_management as m
+		on
+		p.menu_code = m.menu_code
+		<include refid="Example_Where_Clause" />
+		order by m.level
+	</select>
+	<select id="selectCount" resultType="int" parameterType="Object">
+		select count(1) from mis.menu_management as m1
+		<include refid="Example_Where_Clause"></include>
+	</select>
+</mapper>

@@ -1,0 +1,108 @@
+2019-01-24 09:12:01 INFO [org.hibernate.validator.internal.util.Version]: HV000001: Hibernate Validator 6.0.13.Final
+2019-01-24 09:12:01 INFO [com.ck.ck181228.init.Textck181228Application]: Starting Textck181228Application on DESKTOP-9ES33AI with PID 1528 (D:\sts\Textck181228\target\classes started by acer in D:\sts\Textck181228)
+2019-01-24 09:12:01 INFO [com.ck.ck181228.init.Textck181228Application]: No active profile set, falling back to default profiles: default
+2019-01-24 09:12:01 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-01-24 09:12:01 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-01-24 09:12:03 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8080 (http)
+2019-01-24 09:12:03 INFO [org.springframework.web.context.ContextLoader]: Root WebApplicationContext: initialization completed in 1656 ms
+2019-01-24 09:12:03 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Starting...
+2019-01-24 09:12:03 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Start completed.
+2019-01-24 09:12:04 INFO [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor]: Initializing ExecutorService 'applicationTaskExecutor'
+2019-01-24 09:12:04 INFO [org.quartz.impl.StdSchedulerFactory]: Using default implementation for ThreadExecutor
+2019-01-24 09:12:04 INFO [org.quartz.core.SchedulerSignalerImpl]: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2019-01-24 09:12:04 INFO [org.quartz.core.QuartzScheduler]: Quartz Scheduler v.2.3.0 created.
+2019-01-24 09:12:04 INFO [org.quartz.simpl.RAMJobStore]: RAMJobStore initialized.
+2019-01-24 09:12:04 INFO [org.quartz.core.QuartzScheduler]: Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-01-24 09:12:04 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2019-01-24 09:12:04 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler version: 2.3.0
+2019-01-24 09:12:04 INFO [org.quartz.core.QuartzScheduler]: JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@76431bc1
+2019-01-24 09:12:04 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2019-01-24 09:12:04 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean]: Starting Quartz Scheduler now
+2019-01-24 09:12:04 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2019-01-24 09:12:04 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8080 (http) with context path '/Textck181228'
+2019-01-24 09:12:04 INFO [com.ck.ck181228.init.Textck181228Application]: Started Textck181228Application in 3.119 seconds (JVM running for 3.508)
+2019-01-24 09:13:24 INFO [org.springframework.web.servlet.DispatcherServlet]: Initializing Servlet 'dispatcherServlet'
+2019-01-24 09:13:24 INFO [org.springframework.web.servlet.DispatcherServlet]: Completed initialization in 4 ms
+2019-01-24 09:16:58 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2019-01-24 09:16:58 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean]: Shutting down Quartz Scheduler
+2019-01-24 09:16:58 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2019-01-24 09:16:58 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2019-01-24 09:16:58 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2019-01-24 09:16:58 INFO [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor]: Shutting down ExecutorService 'applicationTaskExecutor'
+2019-01-24 09:16:58 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Shutdown initiated...
+2019-01-24 09:16:58 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-1 - Shutdown completed.
+2019-01-24 09:16:58 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-01-24 09:16:58 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-01-24 09:16:58 INFO [com.ck.ck181228.init.Textck181228Application]: Starting Textck181228Application on DESKTOP-9ES33AI with PID 1528 (D:\sts\Textck181228\target\classes started by acer in D:\sts\Textck181228)
+2019-01-24 09:16:58 INFO [com.ck.ck181228.init.Textck181228Application]: No active profile set, falling back to default profiles: default
+2019-01-24 09:16:58 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8080 (http)
+2019-01-24 09:16:59 INFO [org.springframework.web.context.ContextLoader]: Root WebApplicationContext: initialization completed in 396 ms
+2019-01-24 09:16:59 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-2 - Starting...
+2019-01-24 09:16:59 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-2 - Start completed.
+2019-01-24 09:16:59 INFO [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor]: Initializing ExecutorService 'applicationTaskExecutor'
+2019-01-24 09:16:59 INFO [org.quartz.impl.StdSchedulerFactory]: Using default implementation for ThreadExecutor
+2019-01-24 09:16:59 INFO [org.quartz.core.SchedulerSignalerImpl]: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2019-01-24 09:16:59 INFO [org.quartz.core.QuartzScheduler]: Quartz Scheduler v.2.3.0 created.
+2019-01-24 09:16:59 INFO [org.quartz.simpl.RAMJobStore]: RAMJobStore initialized.
+2019-01-24 09:16:59 INFO [org.quartz.core.QuartzScheduler]: Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-01-24 09:16:59 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2019-01-24 09:16:59 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler version: 2.3.0
+2019-01-24 09:16:59 INFO [org.quartz.core.QuartzScheduler]: JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@36b010c4
+2019-01-24 09:16:59 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2019-01-24 09:16:59 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean]: Starting Quartz Scheduler now
+2019-01-24 09:16:59 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2019-01-24 09:16:59 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8080 (http) with context path '/Textck181228'
+2019-01-24 09:16:59 INFO [com.ck.ck181228.init.Textck181228Application]: Started Textck181228Application in 0.697 seconds (JVM running for 298.325)
+2019-01-24 09:16:59 INFO [org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener]: Condition evaluation unchanged
+2019-01-24 09:19:26 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2019-01-24 09:19:26 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean]: Shutting down Quartz Scheduler
+2019-01-24 09:19:26 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2019-01-24 09:19:26 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2019-01-24 09:19:26 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2019-01-24 09:19:26 INFO [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor]: Shutting down ExecutorService 'applicationTaskExecutor'
+2019-01-24 09:19:26 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-2 - Shutdown initiated...
+2019-01-24 09:19:26 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-2 - Shutdown completed.
+2019-01-24 09:19:26 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-01-24 09:19:26 INFO [org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor]: For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-01-24 09:19:26 INFO [com.ck.ck181228.init.Textck181228Application]: Starting Textck181228Application on DESKTOP-9ES33AI with PID 1528 (D:\sts\Textck181228\target\classes started by acer in D:\sts\Textck181228)
+2019-01-24 09:19:26 INFO [com.ck.ck181228.init.Textck181228Application]: No active profile set, falling back to default profiles: default
+2019-01-24 09:19:27 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat initialized with port(s): 8080 (http)
+2019-01-24 09:19:27 INFO [org.springframework.web.context.ContextLoader]: Root WebApplicationContext: initialization completed in 355 ms
+2019-01-24 09:19:27 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-3 - Starting...
+2019-01-24 09:19:27 INFO [com.zaxxer.hikari.HikariDataSource]: HikariPool-3 - Start completed.
+2019-01-24 09:19:27 INFO [org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor]: Initializing ExecutorService 'applicationTaskExecutor'
+2019-01-24 09:19:27 INFO [org.quartz.impl.StdSchedulerFactory]: Using default implementation for ThreadExecutor
+2019-01-24 09:19:27 INFO [org.quartz.core.SchedulerSignalerImpl]: Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2019-01-24 09:19:27 INFO [org.quartz.core.QuartzScheduler]: Quartz Scheduler v.2.3.0 created.
+2019-01-24 09:19:27 INFO [org.quartz.simpl.RAMJobStore]: RAMJobStore initialized.
+2019-01-24 09:19:27 INFO [org.quartz.core.QuartzScheduler]: Scheduler meta-data: Quartz Scheduler (v2.3.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2019-01-24 09:19:27 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2019-01-24 09:19:27 INFO [org.quartz.impl.StdSchedulerFactory]: Quartz scheduler version: 2.3.0
+2019-01-24 09:19:27 INFO [org.quartz.core.QuartzScheduler]: JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@b39afb0
+2019-01-24 09:19:27 INFO [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer]: LiveReload server is running on port 35729
+2019-01-24 09:19:27 INFO [org.springframework.scheduling.quartz.SchedulerFactoryBean]: Starting Quartz Scheduler now
+2019-01-24 09:19:27 INFO [org.quartz.core.QuartzScheduler]: Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2019-01-24 09:19:27 INFO [org.springframework.boot.web.embedded.tomcat.TomcatWebServer]: Tomcat started on port(s): 8080 (http) with context path '/Textck181228'
+2019-01-24 09:19:27 INFO [com.ck.ck181228.init.Textck181228Application]: Started Textck181228Application in 0.619 seconds (JVM running for 446.336)
+2019-01-24 09:19:27 INFO [org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener]: Condition evaluation unchanged

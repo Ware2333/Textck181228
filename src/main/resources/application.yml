@@ -1,0 +1,26 @@
+mybatis:
+  mapperLocations: classpath:com/ck/ck181228/*/mapper/*.xml
+  typeAliasesPackage: com.ck.ck181228.*.model
+server:
+  port: 8080
+  servlet:
+    context-path: /Textck181228
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: admin
+    url: jdbc:mysql://127.0.0.1:3306/mis?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Hongkong
+    username: root
+  mvc:
+    view:
+      prefix: /WEB-INF/web/
+      suffix: .jsp
+logging:
+  level:
+        com.ck.ck181228.role_management.mapper: debug
+        com.ck.ck181228.menu_management.mapper: debug
+        com.ck.ck181228.user_management.mapper: debug
+        com.ck.ck181228.customer_communication.mapper: debug
+        com.ck.ck181228.order_info.mapper: debug
+        com.ck.ck181228.privilege_management.mapper: debug
+        com.ck.ck181228.product_info.mapper: debug

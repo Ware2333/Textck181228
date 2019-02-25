@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ck.ck181228.privilege_management.mapper.PrivilegeMapper">
+
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap"
+		type="com.ck.ck181228.privilege_management.model.PrivilegeModel">
+		<id column="id" property="id" />
+		<result column="role_code" property="role_code" />
+		<result column="menu_code" property="menu_code" />
+		<result column="menu_name" property="menu_name" />
+		<result column="parent_code" property="parent_code" />
+	</resultMap>
+	<!-- table all fields sql片段 -->
+	<sql id="Base_Column_List">
+		m.id, p.role_code,p.menu_code,m.menu_name,m.parent_code
+	</sql>
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id != null">
+			and p.id = #{id}
+		</if>
+		<if test="role_code != null and role_code != ''">
+			and p.role_code = #{role_code}
+		</if>
+		<if test="menu_code !=null and menu_code !=''">
+			and p.menu_code = #{menu_code}
+		</if>
+		<if test="parent_code !=null and parent_code !=''">
+			and m.parent_code != #{parent_code}
+		</if>
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into
+		mis.privilege_management(role_code,menu_code)
+		values(#{role_code},#{menu_code})
+	</insert>
+	<update id="update" parameterType="Object">
+		update mis.privilege_management set
+		id = id
+		<if test="role_code != null and role_code != '' ">
+			,role_code = #{role_code}
+		</if>
+		<if test="menu_code != null and menu_code != '' ">
+			,menu_code = #{menu_code}
+		</if>
+		where id = #{id}
+	</update>
+	<update id="updateModel" parameterType="Object">
+		update mis.privilege_management set
+		id = id
+		<if test="role_code != null and role_code != '' ">
+			,role_code = #{role_code}
+		</if>
+		<if test="menu_code != null and menu_code != '' ">
+			,menu_code = #{menu_code}
+		</if>
+		where role_code = #{role_code}
+	</update>
+	<delete id="delete" parameterType="Object">
+		delete from
+		mis.privilege_management where id = #{id}
+	</delete>
+	<delete id="deleteModel" parameterType="Object">
+		delete from
+		mis.privilege_management
+		where 1=1
+		<if test="role_code !=null and role_code !=''">
+			and role_code = #{role_code}
+		</if>
+		<if test="menu_code !=null and menu_code !=''">
+			and menu_code = #{menu_code}
+		</if>
+	</delete>
+	<select id="select" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.privilege_management as p left join mis.menu_management as m on p.menu_code = m.menu_code
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.privilege_management as p left join mis.menu_management as m on p.menu_code = m.menu_code
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		from mis.privilege_management as p left join mis.menu_management as m on p.menu_code = m.menu_code
+		<include refid="Example_Where_Clause" />
+		limit ${rowStart},${pageLimit}
+	</select>
+	<select id="selectCount" resultType="int" parameterType="Object">
+		select count(1) from mis.privilege_management
+		<include refid="Example_Where_Clause"></include>
+	</select>
+</mapper>
