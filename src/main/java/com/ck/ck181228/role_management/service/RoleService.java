@@ -31,22 +31,24 @@ public class RoleService extends ServiceUtil<RoleModel> {
 	public RoleMapper<RoleModel> getmapper() {
 		return mapper;
 	}
-
-	// 判断是否存在查询字段,存在即拼接,返回结果数目以及内容
+	
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public String role(RoleModel model) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (IsEmpty.str(model.getRole_code())) {
-			model.setRole_code("%" + model.getRole_code() + "%");
-		}
-		if (IsEmpty.str(model.getRole_name())) {
-			model.setRole_name("%" + model.getRole_name() + "%");
-		}
 		map.put("data", getmapper().selectList(model));
 		map.put("count", getmapper().selectCount(model));
 		return new JSONObject(map).toString();
 	}
 
-	// 删除,判断是否为最高级管理员
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public String delete(RoleModel model) {
 		if (model.getRole_code().equals("admin")) {
 			return "admin";
@@ -55,7 +57,9 @@ public class RoleService extends ServiceUtil<RoleModel> {
 		}
 	}
 
-	// 重写修改方法,最高级管理员不可修改
+	/**
+	 * 
+	 */
 	@Override
 	public String update(RoleModel model) {
 		if (model.getRole_code().equals("admin")) {
@@ -65,7 +69,9 @@ public class RoleService extends ServiceUtil<RoleModel> {
 		}
 	}
 
-	// 判断角色编号是否存在,不存在即添加用户权限
+	/**
+	 * 
+	 */
 	@Override
 	public String insert(RoleModel model) {
 		RoleModel no = new RoleModel();

@@ -10,6 +10,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+import com.ck.ck181228.init.CacheKit;
+
 /**
  * Servlet Filter implementation class FilterUtil
  */
@@ -40,8 +42,9 @@ public class FilterUtil implements Filter {
 
 		// pass the request along the filter chain
 		HttpServletRequest hsr = (HttpServletRequest) request;
-		Object username = hsr.getSession().getAttribute("user");
-		if (username == null) {
+//		Object username = hsr.getSession().getAttribute("user");
+		CacheKit cac = new CacheKit();
+		if (cac.getByCache(hsr) == null) {
 			request.getRequestDispatcher("/jump/login.do").forward(request, response);
 		} else {
 			chain.doFilter(request, response);

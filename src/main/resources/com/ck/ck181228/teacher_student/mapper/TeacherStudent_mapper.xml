@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ck.ck181228.teacher_student.mapper.teacherStudentMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap"
+		type="com.ck.ck181228.teacher_student.model.teacherStudentModel">
+		<result column="id" property="id" />
+		<result column="user_code" property="userCode" />
+		<result column="task_code" property="taskCode" />
+		<result column="status" property="status" />
+		<result column="task_scoring" property="taskScoring" />
+		<result column="grading_teacher" property="gradingTeacher" />
+		<result column="grad_time" property="gradTime" />
+		<result column="user_name" property="userName" />
+		<result column="task_name" property="taskName" />
+		<result column="task_teacher" property="taskTeacher" />
+		<result column="info" property="info" />
+		<result column="gradingTeacherName"
+			property="gradingTeacherName" />
+		<result column="taskTeacherName" property="taskTeacherName" />
+		<result column="task_student" property="taskStudent"/>
+	</resultMap>
+	<!-- table all fields sql片段 -->
+	<sql id="Base_Column_List">
+		task_user.user_code,task_user.task_code,
+		task_user.status,task_user.task_scoring,task_user.grading_teacher,task_user.grad_time
+	</sql>
+	<sql id="Base_Column_property">
+		#{userCode},#{taskCode},#{status},#{taskScoring},#{gradingTeacher},now()
+	</sql>
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id != null">
+			and task_user.id = #{id}
+		</if>
+		<if test="userCode != null and userCode != ''">
+			and user_code = #{userCode}
+		</if>
+		<if test="taskCode !=null and taskCode !=''">
+			and task_code = #{taskCode}
+		</if>
+		<if test="status != null and status != ''">
+			and status = #{status}
+		</if>
+		<if test="taskScoring !=null and taskScoring !=''">
+			and task_scoring = #{taskScoring}
+		</if>
+		<if test="gradingTeacher != null and gradingTeacher != ''">
+			and grading_teacher = #{gradingTeacher}
+		</if>
+		<if test="gradTime !=null and gradTime !=''">
+			and grad_time = #{gradTime}
+		</if>
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into
+		mis.task_user(
+		<include refid="Base_Column_List"></include>
+		)
+		values(
+		<include refid="Base_Column_property"></include>
+		)
+	</insert>
+	<insert id="insertts">
+		insert into
+		mis.task_user(user_code,task_code,status,task_teacher)
+		values
+		<foreach collection="list" separator="," item="list"
+			index="index">
+			(#{list.userCode},#{list.taskCode},#{list.status},#{list.taskTeacher})
+		</foreach>
+	</insert>
+	<update id="update" parameterType="Object">
+		update mis.task_user set
+		id = id
+		<if test="status != null and status != ''">
+			,status = #{status}
+		</if>
+		<if test="taskScoring !=null and taskScoring !=''">
+			,task_scoring = #{taskScoring}
+			,grad_time = now()
+		</if>
+		<if test="info !=null and info !=''">
+			,info = #{info}
+		</if>
+		<if test="gradingTeacher != null and gradingTeacher != ''">
+			,grading_teacher = #{gradingTeacher}
+		</if>
+		<if test="taskStudent != null and taskStudent != ''">
+		,task_student = #{taskStudent}
+		</if>
+		where id = #{id}
+	</update>
+	<update id="updateModel" parameterType="Object">
+		update mis.task_user set
+		id = id
+		<if test="status != null and status != ''">
+			,status = #{status}
+		</if>
+		<if test="taskScoring !=null and taskScoring !=''">
+			,task_scoring = #{taskScoring}
+			,grad_time = now()
+		</if>
+		<if test="info !=null and info !=''">
+			,info = #{info}
+		</if>
+		<if test="gradingTeacher != null and gradingTeacher != ''">
+			,grading_teacher = #{gradingTeacher}
+		</if>
+		where user_code = #{userCode}
+		and task_code = #{taskCode}
+	</update>
+	<delete id="delete" parameterType="Object">
+		delete from
+		mis.task_user where
+		id = #{id}
+	</delete>
+	<delete id="deleteModel" parameterType="Object">
+		delete from
+		mis.task_user
+		where task_code = #{taskCode} and user_code = #{userCode}
+	</delete>
+	<select id="select" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,user_management.user_name
+		,task_info.task_name
+		,(select
+		mis.user_management.user_name from mis.task_info where
+		task_info.operational_publisher =
+		mis.user_management.user_code)gradingTeacherName
+		from mis.task_user
+		left join mis.user_management on task_user.user_code =
+		user_management.user_code
+		left join mis.task_info on
+		task_user.task_code = task_info.task_code
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectList" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,task_user.id
+		,task_teacher
+		,task_user.info,
+		task_student
+		,user_management.user_name
+		,task_info.task_name
+		from mis.task_user
+		left join mis.user_management on task_user.user_code
+		=
+		user_management.user_code
+		left join mis.task_info on
+		task_user.task_code = task_info.task_code
+		<where>
+			<if test="userCode != null and userCode != ''">
+				and mis.user_management.user_code = #{userCode}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				and mis.user_management.parent_code = #{parentCode}
+			</if>
+			<if test="className != null and className != ''">
+				and mis.user_management.class_name = #{className}
+			</if>
+		</where>
+		limit ${rowStart},${pageLimit}
+	</select>
+	<select id="selectModel" resultMap="BaseResultMap"
+		parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,user_management.user_name
+		,task_info.task_name
+		,task_user.info
+		,(select
+		mis.user_management.user_name from mis.task_info where
+		task_info.operational_publisher =
+		mis.user_management.user_code)gradingTeacherName
+		from mis.task_user
+		left join mis.user_management on task_user.user_code =
+		user_management.user_code
+		left join mis.task_info on
+		task_user.task_code = task_info.task_code
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectCount" resultType="int" parameterType="Object">
+		select count(1) from mis.task_user
+		<include refid="Example_Where_Clause"></include>
+	</select>
+</mapper>

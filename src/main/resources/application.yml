@@ -5,6 +5,9 @@ server:
   port: 8080
   servlet:
     context-path: /Textck181228
+fileUpload:
+  rootSavePath: D://task/
+  rootHttpPath: localhost:8080/task
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,3 +27,4 @@ logging:
         com.ck.ck181228.order_info.mapper: debug
         com.ck.ck181228.privilege_management.mapper: debug
         com.ck.ck181228.product_info.mapper: debug
+        com.ck.ck181228.teacher_student.mapper: debug

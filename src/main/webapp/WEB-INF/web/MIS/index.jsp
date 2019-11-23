@@ -154,7 +154,7 @@
 											class="img-fluid rounded-circle">
 									</div>
 									<div class="msg-body">
-										<h3 class="h5">${user}</h3>
+										<h3 class="h5">${code}</h3>
 										<span>${code}</span>
 									</div>
 							</a>
@@ -245,7 +245,7 @@
 
 		$(".dropdown-item").click(function() {
 			layer.confirm('真的要注销吗?', {icon: 2, title:'注销'}, function(index){
-			location.href = "/Textck181228/jump/logout.do"
+			location.href = "/Textck181228/jump/logout"
 				  layer.close(index);
 				});
 		})

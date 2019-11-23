@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ck.ck181228.teacher_student.mapper.taskInfoMapper">
+	<!-- Result Map -->
+	<resultMap id="BaseResultMap" type="com.ck.ck181228.teacher_student.model.taskInfoModel">
+		<result column="id" property="id" />
+		<result column="task_code" property="taskCode" />
+		<result column="task_time" property="taskTime" />
+		<result column="task_name" property="taskName" />
+		<result column="name" property="OperationalPublisher" />
+		<result column="task_url" property="taskUrl" />
+	</resultMap>
+	<!-- table all fields sql片段 -->
+	<sql id="Base_Column_List">
+		task_code,task_time,
+		task_name,operational_publisher,task_url
+	</sql>
+	<sql id="Base_Column_property">
+		#{taskCode},now(),#{taskName},#{OperationalPublisher},#{taskUrl}
+	</sql>
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<if test="id != null">
+			and id = #{id}
+		</if>
+		<if test="taskCode != null and taskCode != ''">
+			and task_code like #{taskCode}
+		</if>
+		<if test="taskName !=null and taskName !=''">
+			and task_name like #{taskName}
+		</if>
+		<if test="OperationalPublisher != null and OperationalPublisher != ''">
+			and operational_publisher = #{OperationalPublisher}
+		</if>
+		<if test="taskUrl !=null and taskUrl !=''">
+			and task_url = #{taskUrl}
+		</if>
+	</sql>
+	<insert id="insert" parameterType="Object">
+		insert into
+		mis.task_info(<include refid="Base_Column_List"></include>)
+		values(<include refid="Base_Column_property"></include>)
+	</insert>
+	<update id="update" parameterType="Object">
+		update mis.task_info set
+		id = id
+		<if test="taskName !=null and taskName !=''">
+			,task_name = #{taskName}
+		</if>
+		where id = #{id}
+	</update>
+	<update id="updateModel" parameterType="Object">
+		update mis.task_info set
+		id = id
+		<if test="taskName !=null and taskName !=''">
+			,task_name = #{taskName}
+		</if>
+		where task_code = #{taskCode}
+	</update>
+	<delete id="delete" parameterType="Object">
+		delete from
+		mis.task_info where id = #{id}
+	</delete>
+	<delete id="deleteModel" parameterType="Object">
+		delete from
+		mis.task_info where task_code = #{taskCode}
+	</delete>
+	<select id="select" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,id
+		from mis.task_info
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectList" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,task_info.id,user_management.user_name as name
+		from mis.task_info left join mis.user_management on task_info.operational_publisher = user_management.user_code
+		<include refid="Example_Where_Clause" />
+		limit ${rowStart},${pageLimit}
+	</select>
+	<select id="selectModel" resultMap="BaseResultMap" parameterType="Object">
+		select
+		<include refid="Base_Column_List" />
+		,id
+		from mis.task_info
+		<include refid="Example_Where_Clause" />
+	</select>
+	<select id="selectCount" resultType="int" parameterType="Object">
+		select count(1) from mis.task_info
+		<include refid="Example_Where_Clause"></include>
+	</select>
+</mapper>

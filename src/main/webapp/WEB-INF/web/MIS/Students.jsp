@@ -24,12 +24,6 @@
 		init("", "");
 	}
 		init("", "");
-		dl();
-		function dl(){
-			if('${code}' != 'admin'){
-				$('table.layui-table thead tr th:eq(5)').addClass('layui-hide');
-			}
-		}
 		function init(user_code, user_name) {
 			table.render({
 				elem : '#demo2',
@@ -71,8 +65,9 @@
 					title : '角色',
 					unresize : true
 				}, {
-					field : 'cname',
-					title : '班级',
+					field : 'parent_code',
+					title : '上级编号',
+					edit : 'text',
 					sort : true,
 					unresize : true
 				}, {
@@ -92,39 +87,25 @@
 				    ,limitName: 'pageLimit' //每页数据量的参数名，默认：limit
 				 }
 			});
-			$("#upload").click(function(){
-				if("${code}" != "admin"){
-					layer.msg("您没有此权限,请联系管理员");
-					return;
-				}
-				upload.render({
-				    elem: '#upload' //绑定元素
-				    ,url: '/Textck181228/User/uploadExcel.do' //上传接口
-				    ,accept:'file'
-				    ,exts:'xls|xlsx'
-				    ,done: function(res){
-				    	layer.msg("已上传"+res.count+"条记录,"+res.ncount+"已存在"); 
-				    	init("", "");
-				    }
-				    ,error: function(){
-				      layer.msg("请检查上传文件格式是否正确")
-				    }
-				  });
-			})
+			upload.render({
+			    elem: '#upload' //绑定元素
+			    ,url: '/Textck181228/User/uploadExcel.do' //上传接口
+			    ,accept:'file'
+			    ,exts:'xls|xlsx'
+			    ,done: function(res){
+			    	layer.msg("已上传"+res.count+"条记录,"+res.ncount+"已存在"); 
+			    	init("", "");
+			    }
+			    ,error: function(){
+			      layer.msg("请检查上传文件格式是否正确")
+			    }
+			  });
 			table.on('toolbar(test)', function(obj) {
 				switch (obj.event) {
 				case 'add':
-					if("${code}" != "admin"){
-						layer.msg("您没有此权限,请联系管理员");
-						return;
-					}
 					openLayer('/jump/adduser.do', init2);
 					break;
 				case 'download':
-					if("${code}" != "admin"){
-						layer.msg("您没有此权限,请联系管理员");
-						return;
-					}
 					location.href="/Textck181228/User/downloadexcel.do"
 					break;
 				case 'select':
@@ -134,10 +115,6 @@
 				;
 			});
 			table.on('tool(test)', function(obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-				if("${code}" != "admin"){
-					layer.msg("您没有此权限,请联系管理员");
-					return;
-				}
 				if (obj.event == 'del') {
 					layer.confirm('确认删除？', function(index){
 						  //do something
@@ -160,29 +137,25 @@
 				}
 			});
 			table.on('edit(test)', function(obj) { //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-				if("${code}" != "admin"){
-					layer.msg("您没有此权限,请联系管理员");
-					return;
-				}
-					var json = {};
-					json[obj.field] = obj.value;
-					json["user_code"] = obj.data.user_code;
-					ajax("/User/update.do", json, "text", function(data) {
-						if (data == "success") {
-							layer.msg("已修改");
-							init("","");
-						} else if (data == "err") {
-							layer.msg("修改失败");
-						} else if(data == "admin"){
-							layer.msg("最高级管理员不可修改");
-						}
-					});
+				var json = {};
+				json[obj.field] = obj.value;
+				json["user_code"] = obj.data.user_code;
+				ajax("/User/update.do", json, "text", function(data) {
+					if (data == "success") {
+						layer.msg("已修改");
+						init("","");
+					} else if (data == "err") {
+						layer.msg("修改失败");
+					} else if(data == "admin"){
+						layer.msg("最高级管理员不可修改");
+					}
+				});
 			});
 		}
 	</script>
 	<script type="text/html" id="barDemo">
-  <input type="button" class="layui-btn layui-btn-danger layui-btn-xs {{= d.role_code=='admin' ? 'layui-btn-disabled' : ''}}" lay-event="edit" value="用户角色编辑" {{= d.role_code=='admin' ? 'disabled' : ''}}>
-  <input type="button" class="layui-btn layui-btn-danger layui-btn-xs {{= d.role_code=='admin' ? 'layui-btn-disabled' : ''}}" lay-event="del" value="删除" {{= d.role_code=='admin' ? 'disabled' : ''}}>
+  <input type="button" class="layui-btn layui-btn-danger layui-btn-xs {{= d.user_code=='admin' ? 'layui-btn-disabled' : ''}}" lay-event="edit" value="用户角色编辑" {{= d.user_code=='admin' ? 'disabled' : ''}}>
+  <input type="button" class="layui-btn layui-btn-danger layui-btn-xs {{= d.user_code=='admin' ? 'layui-btn-disabled' : ''}}" lay-event="del" value="删除" {{= d.user_code=='admin' ? 'disabled' : ''}}>
 </script>
 </body>
 </html>

@@ -120,9 +120,7 @@
 					user_code: $("#text1").val(),
 					user_pass: $("#text2").val()
 				}, "json", function(data) {
-					if (data.user == "success") {
-						location.href = "/Textck181228/jump/index.do";
-					} else if (data.user == "err") {
+					if (data.user == "err") {
 						re();
 						if (data.state == "Frozen") {
 							re();
@@ -140,6 +138,8 @@
 					} else if (data.user == "reg") {
 						re();
 						$("#con").html("无此账号");
+					}else if(data.user == "success"){
+						location.href = "/Textck181228/jump/index"
 					}
 				});
 			}

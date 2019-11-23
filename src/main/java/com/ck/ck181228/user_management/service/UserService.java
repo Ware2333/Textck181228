@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.ck.ck181228.init.CacheKit;
 import com.ck.ck181228.init.MD5.MD5;
 import com.ck.ck181228.init.ModelUtil.UserModelUtil;
 import com.ck.ck181228.init.ServiceUtil.ServiceUtil;
@@ -49,48 +50,76 @@ public class UserService extends ServiceUtil<UserModel> {
 		return mapper;
 	}
 
-	//判断用户账户密码是否正确,用户状态是否被冻结,是否被记入黑名单,用户密码错误次数,达到上线之后修改状态为冻结
-	public String login(UserModel model, HttpSession session) {
+	/**
+	 * 
+	 * @param request
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	public String login(HttpServletRequest request,UserModel model,HttpSession session) {
 		model.setUser_pass(MD5.mmd(model.getUser_pass()));
-		UserModel no = new UserModel();
-		no.setUser_code(model.getUser_code());
-		List<UserModel> list = getmapper().selectList(model);
+		UserModel user = new UserModel();
+		CacheKit cachekit = new CacheKit();
 		Map<String, String> map = new HashMap<>();
-		if (!IsEmpty.lis(list)) {
-			List<UserModel> n = getmapper().selectList(no);
-			if (!IsEmpty.lis(n)) {
-				map.put("user", "reg");
-			} else if (Integer.parseInt(n.get(0).getError_times()) == 5) {
-				map.put("user", "err");
-				map.put("state", "Frozen");
-			} else {
-				no.setError_times(String.valueOf(Integer.parseInt(n.get(0).getError_times()) + 1));
-				getmapper().updateModel(no);
-				map.put("user", "err");
-				if (5 - Integer.parseInt(no.getError_times()) > 0) {
-					map.put("state", String.valueOf(5 - Integer.parseInt(no.getError_times())));
-				} else {
-					map.put("state", "Frozen");
-					no.setState("Frozen");
-					getmapper().updateModel(no);
-				}
-			}
+		if (cachekit.getByCache(request) != null && cachekit.getByCacheModel(request).getUser_code().equals(model.getUser_code())) {
+			map.put("user", "success");
+			map.put("code", user.getUser_code());
+			return new JSONObject(map).toString();
 		} else {
-			if (list.get(0).getBlacklist().equals("1")) {
-				map.put("user", "Blacklist");
-			} else if (list.get(0).getState().equals("Frozen")) {
-				map.put("user", "Frozen");
-			} else {
-				session.setAttribute("user", list.get(0).getUser_name());
-				session.setAttribute("code", list.get(0).getUser_code());
-				session.setAttribute("role_code", list.get(0).getRole_code());
-				map.put("user", "success");
+			user = getmapper().selectModel(model);
+			//判断用户账号密码是否正确
+			if(user == null) {
+				model.setUser_pass(null);
+				user = getmapper().selectModel(model);
+				//判断账号是否存在
+				if (user != null) {
+					//判断账户密码错误次数
+					if (Integer.parseInt(user.getError_times()) == 5) {
+						map.put("user", "err");
+						map.put("state", "Frozen");
+					} else {
+						//设置账户密码错误次数加一
+						model.setError_times(String.valueOf(Integer.parseInt(user.getError_times()) + 1));
+						getmapper().updateModel(model);
+						map.put("user", "err");
+						//判断用户密码输错次数是否达到5次 ，冻结账户
+						if (5 - Integer.parseInt(user.getError_times()) > 0) {
+							map.put("state", String.valueOf(5 - Integer.parseInt(user.getError_times())));
+						} else {
+							//返回账户已冻结
+							map.put("state", "Frozen");
+							user.setState("Frozen");
+							getmapper().updateModel(user);
+						}
+					}
+				} else {
+//					map.put("state", "Frozen");
+					map.put("user", "reg");
+				}
+			}else {
+				if (user.getBlacklist().equals("1")) {
+					map.put("user", "Blacklist");
+				} else if (user.getState().equals("Frozen")) {
+					map.put("user", "Frozen");
+				} else {
+					cachekit.setByCache(request, user);
+					map.put("user", "success");
+					map.put("code", user.getUser_code());
+				}
 			}
 		}
 		return new JSONObject(map).toString();
 	}
 
-	//发送账户解冻邮件,编辑邮件格式内容
+	/**
+	 * 
+	 * @param mail
+	 * @param session
+	 * @param user_code
+	 * @return
+	 * @throws MessagingException
+	 */
 	public String fmail(String[] mail, HttpSession session, String user_code) throws MessagingException {
 		StringBuffer num = new StringBuffer();
 		int index;
@@ -110,14 +139,25 @@ public class UserService extends ServiceUtil<UserModel> {
 		return String.valueOf(num);
 	}
 
-	//发送账户密码重置邮件,编辑邮件内容
+	/**
+	 * 
+	 * @param mail
+	 * @return
+	 * @throws MessagingException
+	 */
 	public String mail(String[] mail) throws MessagingException {
 		Mail.sendmail(mail, "admin", "账号密码重置");
 		UserModel model = UserModelUtil.usermodel(mail[0], "", MD5.mmd("admin"), "", "", "", "", "");
 		return getmapper().updateModel(model) > 0 ? "success" : "err";
 	}
 
-	//判断验证码知否一致,一致即解冻账户
+	/**
+	 * 
+	 * @param user_code
+	 * @param autonum
+	 * @param session
+	 * @return
+	 */
 	public String Thaw(String user_code, String autonum, HttpSession session) {
 		if (autonum.equals(session.getAttribute("autonum"))) {
 			UserModel model = UserModelUtil.usermodel(user_code, "", "", "", "", "0", "", "normal");
@@ -127,40 +167,51 @@ public class UserService extends ServiceUtil<UserModel> {
 		}
 	}
 
-	//删除用户
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public String deleteUser(UserModel model) {
 		return getmapper().delete(model) > 0 ? "success" : "err";
 	}
 
-	//重写修改方法,判断是否最高级管理员,最高级管理员不可删除
+	/**
+	 * 
+	 */
 	@Override
 	public String updateModel(UserModel model) {
-		if (model.getUser_code().equals("admin")) {
+		UserModel usermodel = new UserModel();
+		usermodel.setUser_code(model.getUser_code());
+		if ("admin".equals(getmapper().selectModel(usermodel).getRole_code())) {
 			return "admin";
 		} else {
 			return getmapper().updateModel(model) > 0 ? "success" : "err";
 		}
 	}
 
-	//判断查询条件,返回结果内容以及结果条目
+	/**
+	 * 
+	 * @param model
+	 * @return
+	 */
 	public String selectUserModel(UserModel model) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (IsEmpty.str(model.getUser_code())) {
-			model.setUser_code("%" + model.getUser_code() + "%");
-		}
-		if (IsEmpty.str(model.getUser_name())) {
-			model.setUser_name("%" + model.getUser_name() + "%");
-		}
 		map.put("user", getmapper().selectList(model));
 		map.put("count", getmapper().selectCount(model));
 		return new JSONObject(map).toString();
 	}
-
-	//重写添加方法,判断用户账户是否已存在
+	
+	/**
+	 * 
+	 */
 	@Override
 	public String insert(UserModel model) {
 		UserModel um = new UserModel();
 		um.setUser_code(model.getUser_code());
+		if(model.getRole_code() == "admin") {
+			model.setClassName("");
+		}
 		List<UserModel> list = getmapper().selectList(um);
 		if (!IsEmpty.lis(list)) {
 			model.setUser_pass("123456");
@@ -174,7 +225,12 @@ public class UserService extends ServiceUtil<UserModel> {
 		}
 	}
 
-	//读取文件,回显到页面
+	/**
+	 * 
+	 * @param fis
+	 * @return
+	 * @throws IOException
+	 */
 	private int[] parse(InputStream fis) throws IOException {
 		// 由输入流得到工作簿
 		XSSFWorkbook workbook = new XSSFWorkbook(fis);
@@ -206,7 +262,11 @@ public class UserService extends ServiceUtil<UserModel> {
 		return b;
 	}
 
-	//获取文件行内容
+	/**
+	 * 
+	 * @param cell
+	 * @return
+	 */
 	private String getValue(Cell cell) {
 		CellType type = cell.getCellTypeEnum();
 		if (CellType.STRING.equals(type)) {
@@ -217,7 +277,13 @@ public class UserService extends ServiceUtil<UserModel> {
 		return null;
 	}
 
-	//上传文件,获取添加成功以及添加失败数目
+	/**
+	 * 
+	 * @param multipartResolver
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	public String uploadExcel(CommonsMultipartResolver multipartResolver, HttpServletRequest request) throws Exception {
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", "0");
@@ -232,8 +298,11 @@ public class UserService extends ServiceUtil<UserModel> {
 		}
 		return new JSONObject(result).toString();
 	}
-
-	//编辑表格样式
+	/**
+	 * 
+	 * @param response
+	 * @throws Exception
+	 */
 	public void excel(HttpServletResponse response) throws Exception {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet("user");
@@ -251,11 +320,11 @@ public class UserService extends ServiceUtil<UserModel> {
 		workbook.close();
 		out.close();
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public List<Map<String, Object>> selectchart(){
+	public List<Map<String, Object>> selectchart() {
 		return getmapper().selectmap();
 	}
 }

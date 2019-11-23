@@ -2,6 +2,7 @@ package com.ck.ck181228.privilege_management.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +17,9 @@ public class PrivilegeController {
 	private static final Logger log4j = LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	private PrivilegeService service;
-	
-	@RequestMapping("/update.do")
-	public String update(PrivilegeModel model,String[] menu_codearr,String[] newmenu_codearr) {
+
+	@RequestMapping("/update.do/{123}")
+	public String update(PrivilegeModel model, @PathVariable String name,String[] menu_codearr,String[] newmenu_codearr) {
 		return service.update(model,menu_codearr,newmenu_codearr);
 	}
 	

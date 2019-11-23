@@ -25,10 +25,10 @@
 			and id = #{id}
 		</if>
 		<if test="role_code != null and role_code != ''">
-			and role_code like #{role_code}
+			and role_code like CONCAT('%',#{role_code},'%')
 		</if>
 		<if test="role_name !=null and role_name !=''">
-			and role_name like #{role_name}
+			and role_name like CONCAT('%',#{role_name},'%')
 		</if>
 		<if test="role_note != null and role_note != ''">
 			and role_note = #{role_note}

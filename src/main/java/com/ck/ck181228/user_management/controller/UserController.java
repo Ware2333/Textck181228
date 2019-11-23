@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.ck.ck181228.init.CacheKit;
 import com.ck.ck181228.user_management.model.UserModel;
 import com.ck.ck181228.user_management.service.UserService;
 
@@ -23,14 +24,15 @@ public class UserController {
 	@SuppressWarnings("unused")
 	private static final Logger log4j = LoggerFactory.getLogger(UserController.class);
 
-
 	@Autowired
 	private UserService service;
 	
+	CacheKit cac = new CacheKit();
+	
 	@ResponseBody
 	@RequestMapping(value = "/loginemail.do", produces = "application/json;charset=UTF-8")
-	public String loginemail(UserModel model,HttpSession session) {
-		return service.login(model,session);
+	public String loginemail(HttpServletRequest request,UserModel model,HttpSession session) {
+		return service.login(request,model,session);
 	}
 
 	@ResponseBody
@@ -65,9 +67,13 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping("/select.do")
-	public String select(UserModel model) {
+	public String select(UserModel model,HttpServletRequest request) {
+		UserModel usermodel = cac.getByCacheModel(request);
+		model.setParent_code(usermodel.getParent_code());
+		model.setClassName(usermodel.getClassName());
 		return service.selectUserModel(model);
 	}
+	
 	@ResponseBody
 	@RequestMapping("/update.do")
 	public String update(UserModel model) {

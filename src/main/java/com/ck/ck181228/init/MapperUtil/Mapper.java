@@ -15,7 +15,7 @@ public interface Mapper<T> {
 
 	List<T> select(T model);
 	
-	List<T>  selectList(T model);
+	List<T> selectList(T model);
 	
 	int selectCount(T model);
 	

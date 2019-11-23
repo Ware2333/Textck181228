@@ -29,7 +29,12 @@ public class MenuService extends ServiceUtil<MenuModel> {
 		return mapper;
 	}
 
-	// 删除目录信息,验证目录编号是否已占用,占用不可删除,一级目录不可删除
+	/**删除目录信息,验证目录编号是否已占用,占用不可删除,一级目录不可删除
+	 * @param model
+	 * @return
+	 * 参数：MenuModel
+	 * 返回：字符串类型判断操作是否成功
+	 */
 	public String delete(MenuModel model) {
 		MenuModel no = new MenuModel();
 		no.setParent_code(model.getMenu_code());
@@ -44,7 +49,12 @@ public class MenuService extends ServiceUtil<MenuModel> {
 		}
 	}
 
-	// 重写修改方法,最高级管理员目录信息不可修改
+	/**)
+	 * @see com.ck.ck181228.init.ServiceUtil.ServiceUtil#update(com.ck.ck181228.init.page.Page)
+	 * 重写修改方法,最高级管理员目录信息不可修改
+	 * 参数：MenuModel
+	 * 返回：字符串判断操作是否成功
+	 */
 	@Override
 	public String update(MenuModel model) {
 		if (model.getMenu_code().equals("admin")) {
@@ -54,7 +64,13 @@ public class MenuService extends ServiceUtil<MenuModel> {
 		}
 	}
 
-	// 重写添加方法,验证目录编号是否已存在,判断是否是一级菜单,一级菜单无地址信息
+	
+	/**
+	 * @see com.ck.ck181228.init.ServiceUtil.ServiceUtil#insert(com.ck.ck181228.init.page.Page)
+	 *  重写添加方法,验证目录编号是否已存在,判断是否是一级菜单,一级菜单无地址信息
+	 *  参数：MenuModel
+	 *  返回：字符串判断操作是否成功
+	 */
 	@Override
 	public String insert(MenuModel model) {
 		MenuModel menumodel = new MenuModel();
@@ -65,16 +81,16 @@ public class MenuService extends ServiceUtil<MenuModel> {
 		
 		PrivilegeModel pmodel = new PrivilegeModel();
 		pmodel.setMenu_code(model.getMenu_code());
-		pmodel.setRole_code("admin");
+		pmodel.setRole_code("admin");//默认最高级管理员拥有所有权限
 		List<MenuModel> li = getmapper().select(menumodel);
-		if(IsEmpty.lis(li)) {
+		if(IsEmpty.lis(li)) {//判断是否是一级菜单，设置菜单级别
 			model.setLevel("2");
 		}else {
 			model.setLevel("1");
 		}
 		if (!IsEmpty.lis(getmapper().select(mm))) {
-			if (IsEmpty.str(model.getMenu_url())) {
-				model.setMenu_url("/Textck181228/jump/" + model.getMenu_url() + ".do");
+			if (IsEmpty.str(model.getMenu_url())) {//判断是否存在菜单路径
+				model.setMenu_url("/Textck181228/jump/" + model.getMenu_url());
 			}
 			service.insert(pmodel);
 			return getmapper().insert(model) > 0 ? "success" : "err";
@@ -83,25 +99,35 @@ public class MenuService extends ServiceUtil<MenuModel> {
 		}
 	}
 
-	// 查询菜单信息,判断是否存在查询条件,返回菜单内容以及数目
+	/**查询菜单信息,判断是否存在查询条件,返回菜单内容以及数目
+	 * @param model
+	 * @return
+	 * 参数：MenuModel
+	 * 返回：字符串判断操作是否成功
+	 */
 	public String selectMenuModel(MenuModel model) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (IsEmpty.str(model.getMenu_code())) {
-			model.setMenu_code("%" + model.getMenu_code() + "%");
-		}
-		if (IsEmpty.str(model.getMenu_name())) {
-			model.setMenu_name("%" + model.getMenu_name() + "%");
-		}
 		model.setPageOn(true);
 		map.put("menu", getmapper().select(model));
 		map.put("count", getmapper().selectCount(model));
 		return new JSONObject(map).toString();
 	}
 
+	
+	/**
+	 * @param um
+	 * @return
+	 * 查询菜单并根据上下级管理
+	 * 参数：MenuModel
+	 * 返回：MenuModel结果集
+	 */
 	public List<MenuModel> selectMenu(MenuModel um) {
 		List<MenuModel> list = getmapper().selectList(um);
 		List<MenuModel> result = new ArrayList<MenuModel>();
 		for (MenuModel ss : list) {
+			if(ss == null) {
+				return result;
+			}
 			if (ss.getParent_code().equals("0")) {
 				result.add(ss);
 			}

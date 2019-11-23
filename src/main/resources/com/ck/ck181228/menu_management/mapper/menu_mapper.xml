@@ -15,15 +15,6 @@
 		<result column="parent_code" property="parent_code" />
 		<result column="level" property="level" />
 		<result column="orderby" property="orderby" />
-		<!-- <collection property="list" -->
-		<!-- ofType="com.ck.ck181228.menu_management.model.MenuModel"> -->
-		<!-- <result column="menu_code" property="menu_code" /> -->
-		<!-- <result column="menu_name" property="menu_name" /> -->
-		<!-- <result column="menu_url" property="menu_url" /> -->
-		<!-- <result column="parent_code" property="parent_code" /> -->
-		<!-- <result column="level" property="level" /> -->
-		<!-- <result column="orderby" property="orderby" /> -->
-		<!-- </collection> -->
 	</resultMap>
 	<!-- table all fields sql片段 -->
 	<sql id="Base_Column_List">
@@ -36,10 +27,10 @@
 			and m.id = #{id}
 		</if>
 		<if test="menu_code != null and menu_code != ''">
-			and m.menu_code like #{menu_code}
+			and m.menu_code like CONCAT('%',#{menu_code},'%')
 		</if>
 		<if test="menu_name !=null and menu_name !=''">
-			and m.menu_name like #{menu_name}
+			and m.menu_name like CONCAT('%',#{menu_name},'%')
 		</if>
 		<if test="menu_url != null and menu_url != ''">
 			and m.menu_url = #{menu_url}
