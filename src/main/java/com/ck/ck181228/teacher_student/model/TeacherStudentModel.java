@@ -7,7 +7,7 @@ import com.ck.ck181228.init.page.Page;
 import lombok.Data;
 
 @Data
-public class teacherStudentModel extends Page {
+public class TeacherStudentModel extends Page {
 	private Integer id;
 	/**
 	 * 用户编号

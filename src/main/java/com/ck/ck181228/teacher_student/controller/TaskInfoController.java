@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ck.ck181228.init.CacheKit;
-import com.ck.ck181228.teacher_student.model.taskInfoModel;
-import com.ck.ck181228.teacher_student.service.taskInfoService;
+import com.ck.ck181228.teacher_student.model.TaskInfoModel;
+import com.ck.ck181228.teacher_student.service.TaskInfoService;
 
 @Controller
 @RequestMapping("/taskInfoController")
-public class taskInfoController {
+public class TaskInfoController {
 	@Autowired
-	private taskInfoService service;
+	private TaskInfoService service;
 	CacheKit cac = new CacheKit();
 	
 	/**
@@ -25,7 +25,7 @@ public class taskInfoController {
 	 */
 	@ResponseBody
 	@RequestMapping("/insert")
-	public String insertTaskInfo(taskInfoModel taskmodel) {
+	public String insertTaskInfo(TaskInfoModel taskmodel) {
 		return service.insert(taskmodel);
 	}
 	
@@ -36,7 +36,7 @@ public class taskInfoController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	public String deleteTaskInfo(taskInfoModel taskmodel) {
+	public String deleteTaskInfo(TaskInfoModel taskmodel) {
 		return service.updateModel(taskmodel);
 	}
 	
@@ -47,7 +47,7 @@ public class taskInfoController {
 	 */
 	@ResponseBody
 	@RequestMapping("/delete")
-	public String updateTaskInfo(taskInfoModel taskmodel) {
+	public String updateTaskInfo(TaskInfoModel taskmodel) {
 		return service.delete(taskmodel);
 	}
 	
@@ -59,7 +59,7 @@ public class taskInfoController {
 	 */
 	@ResponseBody
 	@RequestMapping("/tasklist")
-	public String selectTaskInfo(taskInfoModel taskmodel,HttpServletRequest request) {
+	public String selectTaskInfo(TaskInfoModel taskmodel,HttpServletRequest request) {
 		taskmodel.setOperationalPublisher(cac.getByCacheModel(request).getUser_code());
 		return service.selectTaskList(taskmodel);
 	}

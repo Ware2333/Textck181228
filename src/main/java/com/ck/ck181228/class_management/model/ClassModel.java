@@ -5,7 +5,7 @@ import com.ck.ck181228.init.page.Page;
 import lombok.Data;
 
 @Data
-public class classModel extends Page {
+public class ClassModel extends Page {
 	private Integer id;
 	//班级名称
 	private String className;

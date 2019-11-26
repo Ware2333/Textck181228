@@ -7,7 +7,7 @@ import com.ck.ck181228.init.page.Page;
 import lombok.Data;
 
 @Data
-public class taskInfoModel extends Page {
+public class TaskInfoModel extends Page {
 	private Integer id;
 	//作业编号
 	private String taskCode;

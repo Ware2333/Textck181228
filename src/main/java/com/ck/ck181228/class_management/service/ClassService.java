@@ -7,20 +7,18 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ck.ck181228.class_management.mapper.classMapper;
-import com.ck.ck181228.class_management.model.classModel;
+import com.ck.ck181228.class_management.mapper.ClassMapper;
+import com.ck.ck181228.class_management.model.ClassModel;
 import com.ck.ck181228.init.ServiceUtil.ServiceUtil;
-import com.ck.ck181228.teacher_student.model.taskInfoModel;
-import com.ck.ck181228.user_management.model.UserModel;
 
 @Service
-public class classService extends ServiceUtil<classModel> {
+public class ClassService extends ServiceUtil<ClassModel> {
 
 	@Autowired
-	private classMapper<classModel> mapper;
+	private ClassMapper<ClassModel> mapper;
 
 	@Override
-	public classMapper<classModel> getmapper() {
+	public ClassMapper<ClassModel> getmapper() {
 		return mapper;
 	}
 
@@ -29,10 +27,10 @@ public class classService extends ServiceUtil<classModel> {
 	 * @param classmodel
 	 * @return
 	 */
-	public String selectclasslist(classModel classmodel) {
+	public String selectclasslist(ClassModel classModel) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("classlist", getmapper().selectList(classmodel));
-		map.put("count", getmapper().selectCount(classmodel));
+		map.put("classlist", getmapper().selectList(classModel));
+		map.put("count", getmapper().selectCount(classModel));
 		return new JSONObject(map).toString();
 	}
 	
@@ -40,7 +38,7 @@ public class classService extends ServiceUtil<classModel> {
 	 * 
 	 */
 	@Override
-	public String insert(classModel classmodel) {
+	public String insert(ClassModel classmodel) {
 		if (getmapper().selectModel(classmodel) != null) {
 			return "Already exist";
 		}

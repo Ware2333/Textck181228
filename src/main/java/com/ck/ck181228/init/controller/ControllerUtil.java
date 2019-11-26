@@ -18,8 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ck.ck181228.class_management.model.classModel;
-import com.ck.ck181228.class_management.service.classService;
+import com.ck.ck181228.class_management.model.ClassModel;
+import com.ck.ck181228.class_management.service.ClassService;
 import com.ck.ck181228.init.CacheKit;
 import com.ck.ck181228.menu_management.model.MenuModel;
 import com.ck.ck181228.menu_management.service.MenuService;
@@ -27,15 +27,15 @@ import com.ck.ck181228.privilege_management.model.PrivilegeModel;
 import com.ck.ck181228.privilege_management.service.PrivilegeService;
 import com.ck.ck181228.role_management.model.RoleModel;
 import com.ck.ck181228.role_management.service.RoleService;
-import com.ck.ck181228.teacher_student.model.teacherStudentModel;
-import com.ck.ck181228.teacher_student.service.teacherStudentService;
+import com.ck.ck181228.teacher_student.model.TeacherStudentModel;
+import com.ck.ck181228.teacher_student.service.TeacherStudentService;
 import com.ck.ck181228.user_management.controller.UserController;
 import com.ck.ck181228.user_management.model.UserModel;
 import com.ck.ck181228.user_management.service.UserService;
 
 @Controller
 @RequestMapping("/jump")
-public class controllerutil {
+public class ControllerUtil {
 	CacheKit cac = new CacheKit();
 	@SuppressWarnings("unused")
 	private static final Logger log4j = LoggerFactory.getLogger(UserController.class);
@@ -43,19 +43,19 @@ public class controllerutil {
 	private MenuService service;
 
 	@Autowired
-	private PrivilegeService privilegeservice;
+	private PrivilegeService privilegeService;
 
 	@Autowired
-	private RoleService roleservice;
+	private RoleService roleService;
 
 	@Autowired
-	private UserService userservice;
+	private UserService userService;
 	
 	@Autowired
-	private classService classservice;
+	private ClassService classService;
 	
 	@Autowired
-	private teacherStudentService teacherStudentService;
+	private TeacherStudentService teacherStudentService;
 
 	@RequestMapping("/login.do")
 	public String login() {
@@ -129,7 +129,7 @@ public class controllerutil {
 		model.addAttribute("userName", userName);
 		model.addAttribute("taskCode", taskCode);
 		model.addAttribute("id", id);
-		teacherStudentModel tmodel = new teacherStudentModel();
+		TeacherStudentModel tmodel = new TeacherStudentModel();
 		tmodel.setId(id);
 		model.addAttribute("user", cac.getByCacheModel(request).getParent_code());
 		model.addAttribute("taskUser", teacherStudentService.selectModel(tmodel));
@@ -208,12 +208,12 @@ public class controllerutil {
 	@RequestMapping("/editJurisdiction.do")
 	public String Jurisdiction(Model model, MenuModel no, PrivilegeModel privilegemodel, RoleModel rolemodel) {
 		rolemodel.setRole_code(privilegemodel.getRole_code());
-		List<PrivilegeModel> plist = privilegeservice.selectList(privilegemodel);
+		List<PrivilegeModel> plist = privilegeService.selectList(privilegemodel);
 		privilegemodel.setParent_code("0");
-		List<PrivilegeModel> plist1 = privilegeservice.selectList(privilegemodel);
+		List<PrivilegeModel> plist1 = privilegeService.selectList(privilegemodel);
 		model.addAttribute("role_menu_code", plist);
 		model.addAttribute("role_menu", plist1);
-		model.addAttribute("rolename", roleservice.selectModel(rolemodel));
+		model.addAttribute("rolename", roleService.selectModel(rolemodel));
 		List<MenuModel> list = service.selectMenuli(new MenuModel());
 		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
 		for (MenuModel ss : list) {
@@ -244,8 +244,8 @@ public class controllerutil {
 	 */
 	@RequestMapping("/editrole.do")
 	public String editrole(Model model, UserModel usermodel, RoleModel rolemodel) {
-		model.addAttribute("role", roleservice.selectList(rolemodel));
-		model.addAttribute("user", userservice.selectModel(usermodel));
+		model.addAttribute("role", roleService.selectList(rolemodel));
+		model.addAttribute("user", userService.selectModel(usermodel));
 		return "MIS/EditRole";
 	}
 	
@@ -270,8 +270,8 @@ public class controllerutil {
 	 */
 	@RequestMapping("/adduser.do")
 	public String add(Model model) {
-		model.addAttribute("Role", roleservice.selectList(new RoleModel()));
-		model.addAttribute("classlist", classservice.selectList(new classModel()));
+		model.addAttribute("Role", roleService.selectList(new RoleModel()));
+		model.addAttribute("classlist", classService.selectList(new ClassModel()));
 		return "MIS/AddUser";
 	}
 

@@ -13,21 +13,21 @@ import org.springframework.stereotype.Service;
 import com.ck.ck181228.init.CacheKit;
 import com.ck.ck181228.init.ServiceUtil.ServiceUtil;
 import com.ck.ck181228.teacher_student.mapper.teacherStudentMapper;
-import com.ck.ck181228.teacher_student.model.teacherStudentModel;
+import com.ck.ck181228.teacher_student.model.TeacherStudentModel;
 import com.ck.ck181228.user_management.model.UserModel;
 
 @Service
-public class teacherStudentService extends ServiceUtil<teacherStudentModel> {
+public class TeacherStudentService extends ServiceUtil<TeacherStudentModel> {
 	@Autowired
-	private teacherStudentMapper<teacherStudentModel> mapper;
+	private teacherStudentMapper<TeacherStudentModel> mapper;
 	private CacheKit cac = new CacheKit();
 	
 	@Override
-	public teacherStudentMapper<teacherStudentModel> getmapper(){
+	public teacherStudentMapper<TeacherStudentModel> getmapper(){
 		return mapper;
 	}
 	
-	public String jobSubmission(HttpServletRequest request, teacherStudentModel model) {
+	public String jobSubmission(HttpServletRequest request, TeacherStudentModel model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserModel user = cac.getByCacheModel(request);
 //		model.setUserCode(user.getUser_code());
@@ -45,7 +45,7 @@ public class teacherStudentService extends ServiceUtil<teacherStudentModel> {
 		return new JSONObject(map).toString();
 	}
 	
-	public void insertts(List<teacherStudentModel> list) {
+	public void insertts(List<TeacherStudentModel> list) {
 		getmapper().insertts(list);
 	}
 }

@@ -33,29 +33,29 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.ck.ck181228.init.CacheKit;
-import com.ck.ck181228.teacher_student.model.taskInfoModel;
-import com.ck.ck181228.teacher_student.model.teacherStudentModel;
-import com.ck.ck181228.teacher_student.service.taskInfoService;
-import com.ck.ck181228.teacher_student.service.teacherStudentService;
+import com.ck.ck181228.teacher_student.model.TaskInfoModel;
+import com.ck.ck181228.teacher_student.model.TeacherStudentModel;
+import com.ck.ck181228.teacher_student.service.TaskInfoService;
+import com.ck.ck181228.teacher_student.service.TeacherStudentService;
 import com.ck.ck181228.user_management.model.UserModel;
 import com.ck.ck181228.user_management.service.UserService;
 
 @Controller
 @RequestMapping("/taskupload")
-public class task {
+public class Task {
 	private final String PATH = "D:/task/";
 	private final File file = new File("D:/usertask/");
 	
 	private CacheKit cac = new CacheKit();
 
 	@Autowired
-	private taskInfoService service;
+	private TaskInfoService service;
 
 	@Autowired
 	private UserService userservice;
 
 	@Autowired
-	private teacherStudentService taskservice;
+	private TeacherStudentService taskservice;
 
 	/**
 	 * 
@@ -100,7 +100,7 @@ public class task {
 					String path = PATH + saveName;
 					file.transferTo(new File(path));// 上传
 					CacheKit cachekit = new CacheKit();
-					taskInfoModel taskinfomodel = new taskInfoModel();
+					TaskInfoModel taskinfomodel = new TaskInfoModel();
 					taskinfomodel.setTaskUrl(saveName);
 					taskinfomodel.setOperationalPublisher(cachekit.getByCacheModel(request).getUser_code());
 					taskinfomodel.setTaskCode(saveName);
@@ -112,9 +112,9 @@ public class task {
 						model.setParent_code(cachekit.getByCacheModel(request).getParent_code());
 						model.setClassName(cachekit.getByCacheModel(request).getClassName());
 						List<UserModel> list = userservice.selectList(model);
-						List<teacherStudentModel> tslist = new ArrayList<teacherStudentModel>();
+						List<TeacherStudentModel> tslist = new ArrayList<TeacherStudentModel>();
 						for (UserModel ss : list) {
-							teacherStudentModel tsmodel = new teacherStudentModel();
+							TeacherStudentModel tsmodel = new TeacherStudentModel();
 							tsmodel.setTaskCode(saveName);
 							tsmodel.setTaskTeacher(cachekit.getByCacheModel(request).getUser_code());
 							tsmodel.setUserCode(ss.getUser_code());
@@ -123,7 +123,7 @@ public class task {
 						}
 						taskservice.insertts(tslist);
 					}else {
-						teacherStudentModel tsmodel = new teacherStudentModel();
+						TeacherStudentModel tsmodel = new TeacherStudentModel();
 						tsmodel.setId(id);
 						tsmodel.setTaskStudent(saveName);
 						tsmodel.setStatus("1");

@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
 
 import com.ck.ck181228.init.ServiceUtil.ServiceUtil;
 import com.ck.ck181228.teacher_student.mapper.taskInfoMapper;
-import com.ck.ck181228.teacher_student.model.taskInfoModel;
+import com.ck.ck181228.teacher_student.model.TaskInfoModel;
 
 @Service
-public class taskInfoService extends ServiceUtil<taskInfoModel> {
+public class TaskInfoService extends ServiceUtil<TaskInfoModel> {
 	
 	@Autowired
-	private taskInfoMapper<taskInfoModel> mapper;
+	private taskInfoMapper<TaskInfoModel> mapper;
 	
 	@Override
-	public taskInfoMapper<taskInfoModel> getmapper() {
+	public taskInfoMapper<TaskInfoModel> getmapper() {
 		return mapper;
 	}
 	
@@ -27,10 +27,10 @@ public class taskInfoService extends ServiceUtil<taskInfoModel> {
 	 * @param taskmodel
 	 * @return
 	 */
-	public String selectTaskList(taskInfoModel taskmodel) {
+	public String selectTaskList(TaskInfoModel taskModel) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("task", getmapper().selectList(taskmodel));
-		map.put("count", getmapper().selectCount(taskmodel));
+		map.put("task", getmapper().selectList(taskModel));
+		map.put("count", getmapper().selectCount(taskModel));
 		return new JSONObject(map).toString();
 	}
 
